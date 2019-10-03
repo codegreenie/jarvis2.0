@@ -49,14 +49,7 @@
     <script type="text/javascript">
         function onDeviceReady(){
 
-            var notificationOpenedCallback = function(jsonData) {
-                console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-              };
-
-              window.plugins.OneSignal
-                .startInit("027b2258-a1b2-4d82-9073-9dfb42e1bfd5")
-                .handleNotificationOpened(notificationOpenedCallback)
-                .endInit();
+           window.plugins.PushbotsPlugin.initialize("5d967b6bb794120bd54ee207", {"android":{"sender_id":"949600830086"}});
             }
        document.addEventListener('deviceready', onDeviceReady, false);
     </script>
