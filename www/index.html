@@ -49,7 +49,63 @@
     <script type="text/javascript">
         function onDeviceReady(){
 
-           window.plugins.PushbotsPlugin.initialize("5d967b6bb794120bd54ee207", {"android":{"sender_id":"949600830086"}});
+            //initialize the goodies
+function initAd(){
+        if ( window.plugins && window.plugins.AdMob ) {
+            var ad_units = {
+                android : {
+                    banner: 'ca-app-pub-xxxxxxxxxxx/xxxxxxxxxxx',       //PUT ADMOB ADCODE HERE
+                    interstitial: 'ca-app-pub-xxxxxxxxxxx/xxxxxxxxxxx'  //PUT ADMOB ADCODE HERE
+                }
+            };
+            var admobid = ad_units.android;
+
+            window.plugins.AdMob.setOptions( {
+                publisherId: admobid.banner,
+                interstitialAdId: admobid.interstitial,
+                adSize: window.plugins.AdMob.AD_SIZE.SMART_BANNER,  //use SMART_BANNER, BANNER, LARGE_BANNER, IAB_MRECT, IAB_BANNER, IAB_LEADERBOARD
+                bannerAtTop: false, // set to true, to put banner at top
+                overlap: true, // banner will overlap webview
+                offsetTopBar: false, // set to true to avoid ios7 status bar overlap
+                isTesting: true, // receiving test ad
+                autoShow: true // auto show interstitial ad when loaded
+            });
+
+            registerAdEvents();
+        } else {
+            window.alert( 'admob plugin not ready' );
+            showBannerFunc();
+            showInterstitialFunc();
+        }
+}
+//functions to allow you to know when ads are shown, etc.
+function registerAdEvents() {
+        document.addEventListener('onReceiveAd', function(){});
+        document.addEventListener('onFailedToReceiveAd', function(data){});
+        document.addEventListener('onPresentAd', function(){});
+        document.addEventListener('onDismissAd', function(){ });
+        document.addEventListener('onLeaveToAd', function(){ });
+        document.addEventListener('onReceiveInterstitialAd', function(){ });
+        document.addEventListener('onPresentInterstitialAd', function(){ });
+        document.addEventListener('onDismissInterstitialAd', function(){ });
+    }
+
+
+
+
+                //display the banner
+            function showBannerFunc(){
+                window.plugins.AdMob.createBannerView();
+            }
+            //display the interstitial
+            function showInterstitialFunc(){
+                window.plugins.AdMob.createInterstitialView();  //get the interstitials ready to be shown and show when it's loaded.
+                window.plugins.AdMob.requestInterstitialAd();
+            }
+           
+
+
+
             }
        document.addEventListener('deviceready', onDeviceReady, false);
     </script>
