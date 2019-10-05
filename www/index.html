@@ -53,12 +53,16 @@
 function initAd(){
         if ( window.plugins && window.plugins.AdMob ) {
             var ad_units = {
+                ios : {
+                    banner: 'ca-app-pub-8716485588609849/1279938259',		//PUT ADMOB ADCODE HERE
+                    interstitial: 'ca-app-pub-8716485588609849/2663859039'	//PUT ADMOB ADCODE HERE
+                },
                 android : {
-                    banner: 'ca-app-pub-8716485588609849/1279938259',       //PUT ADMOB ADCODE HERE
-                    interstitial: 'ca-app-pub-8716485588609849/2663859039'  //PUT ADMOB ADCODE HERE
+                    banner: 'ca-app-pub-8716485588609849/1279938259',		//PUT ADMOB ADCODE HERE
+                    interstitial: 'ca-app-pub-8716485588609849/2663859039'	//PUT ADMOB ADCODE HERE
                 }
             };
-            var admobid = ad_units.android;
+            var admobid = ( /(android)/i.test(navigator.userAgent) ) ? ad_units.android : ad_units.ios;
 
             window.plugins.AdMob.setOptions( {
                 publisherId: admobid.banner,
@@ -78,6 +82,13 @@ function initAd(){
             showInterstitialFunc();
         }
 }
+            
+            
+      setTimeout(function(){
+    initAd()
+}, 2000);
+            
+ 
 //functions to allow you to know when ads are shown, etc.
 function registerAdEvents() {
         document.addEventListener('onReceiveAd', function(){});
