@@ -80,7 +80,7 @@ function initAd(){
             window.plugins.AdMob.requestInterstitialAd();
 
         } else {
-            //alert( 'admob plugin not ready' );
+            alert( 'admob plugin not ready' );
         }
 }
 
@@ -113,7 +113,9 @@ function showInterstitialFunc(){
 }
            
 setTimeout(function(){
-    initAd()
+    initAd();
+    showBannerFunc();
+    showInterstitialFunc();
 }, 2000);
 
 
