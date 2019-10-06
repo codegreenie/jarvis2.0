@@ -57,18 +57,65 @@
               interstitial: 'ca-app-pub-8716485588609849/2663859039'
             };
 
-            if(AdMob) AdMob.createBanner({
+            function initBannerAd(){
+
+            AdMob.createBanner({
               adId: admobid.banner,
               position: AdMob.AD_POSITION.TOP_CENTER,
               autoShow: true,
-              isTesting:true });
+              isTesting:true,
+              success: function(){
+                alert("Banner Ad Active!");
+                showBannerAd();
+              },
+              error: function(){
+                alert("Banner Ad Failed. Retrying...");
+                initBannerAd();
+              }
+           });
 
 
-            // preppare and load ad resource in background, e.g. at begining of game level
-            if(AdMob) AdMob.prepareInterstitial( {adId:admobid.interstitial, autoShow:false, isTesting:true} );
+            function showBannerAd(){
 
-            // show the interstitial later, e.g. at end of game level
-            if(AdMob) AdMob.showInterstitial();
+                AdMob.showBannerAtXY(0, 100);
+                initIntAd();
+            }
+
+        }
+
+        initBannerAd();
+
+
+            function initIntAd(){
+
+                AdMob.prepareInterstitial({
+                    adId:admobid.interstitial, 
+                    autoShow:false, 
+                    isTesting:true,
+                    success: function(){
+                        alert("Int Ad Ready!");
+                        showIntAd();
+                      },
+                      error: function(){
+                        alert("Int Ad Failed. Retrying...");
+                        initIntAd();
+                      }
+                });
+            }
+
+            function showIntAd(){
+                AdMob.isInterstitialReady(function(isready){
+                    if(isready) {
+                        AdMob.showInterstitial();
+                    }
+                    else{
+                        alert("Int Ad Ready but did not show. Retrying...");
+                        initIntAd();
+                    }
+                });
+            }
+            
+            
         }
 
 
@@ -80,8 +127,8 @@
 
            
 setTimeout(function(){
-    initAd()
-}, 2000);
+    initAd();
+}, 500);
 
 
             }
