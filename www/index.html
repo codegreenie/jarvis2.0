@@ -22,31 +22,47 @@
 
            
 
-    function onDeviceReady(){
+    function startAd(){
            
 
         var admobid = {};
-            admobid = {
-              banner: 'ca-app-pub-8716485588609849/1279938259',       //PUT ADMOB ADCODE HERE
-              interstitial: 'ca-app-pub-8716485588609849/2663859039'
-            };
+            if( /(android)/i.test(navigator.userAgent) ) { // for android & amazon-fireos
+                admobid = {
+                  banner: 'ca-app-pub-8716485588609849/1279938259', // or DFP format "/6253334/dfp_example_ad"
+                  interstitial: 'ca-app-pub-8716485588609849/2663859039'
+                };
+              } else if(/(ipod|iphone|ipad)/i.test(navigator.userAgent)) { // for ios
+                admobid = {
+                  banner: 'ca-app-pub-8716485588609849/1215664542', // or DFP format "/6253334/dfp_example_ad"
+                  interstitial: 'ca-app-pub-8716485588609849/3270487402'
+                };
+              } else { // back to android
+                admobid = {
+                  banner: 'ca-app-pub-8716485588609849/1279938259', // or DFP format "/6253334/dfp_example_ad"
+                  interstitial: 'ca-app-pub-8716485588609849/2663859039'
+                };
+              }
 
-            if(AdMob) AdMob.createBanner({
+            if(window.AdMob) AdMob.createBanner({
                 adId:admobid.banner, 
                 overlap:true, 
                 position:AdMob.AD_POSITION.BOTTOM_CENTER, 
                 autoShow:true
             });
 
-            if(AdMob) AdMob.prepareInterstitial({adId:admobid.interstitial, autoShow:false});
+            if(window.AdMob) AdMob.prepareInterstitial({adId:admobid.interstitial, autoShow:false});
             setTimeout(function(){
-                if(AdMob) AdMob.showInterstitial();
+                if(window.AdMob) AdMob.showInterstitial();
             },7000);
 
-
-
-
             }
+
+
+
+function onDeviceReady(){
+    startAd();
+}
+
        document.addEventListener('deviceready', onDeviceReady, false);
     </script>
 </body>
