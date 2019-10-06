@@ -7,17 +7,6 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' gap:; style-src 'self' 'unsafe-inline'; media-src *" />
-    <!-- Good default declaration:
-    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-        * Enable inline JS: add 'unsafe-inline' to default-src
-        * Enable eval(): add 'unsafe-eval' to default-src
-    * Create your own at http://cspisawesome.com
-    -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
 
     <title>Hello World</title>
 </head>
@@ -28,76 +17,33 @@
     </div>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript">
-        function onDeviceReady(){
+        
 
 
-            function initAd(){
+           
 
-            var admobid = {};
+    function onDeviceReady(){
+           
+
+        var admobid = {};
             admobid = {
               banner: 'ca-app-pub-8716485588609849/1279938259',       //PUT ADMOB ADCODE HERE
               interstitial: 'ca-app-pub-8716485588609849/2663859039'
             };
 
-            function initBannerAd(){
+            if(AdMob) AdMob.createBanner({
+                adId:admobid.banner, 
+                overlap:true, 
+                position:AdMob.AD_POSITION.BOTTOM_CENTER, 
+                autoShow:true
+            });
 
-            AdMob.createBanner({
-              adId: admobid.banner,
-              autoShow: true,
-              isTesting:true,
-              overlap:true, 
-              position:AdMob.AD_POSITION.POS_XY, x:10, y:100, 
-              success: function(){
-                initIntAd();
-              },
-              error: function(){
-                initBannerAd();
-              }
-           });
-            
-        }
-
-        initBannerAd();
+            if(AdMob) AdMob.prepareInterstitial({adId:admobid.interstitial, autoShow:false});
+            setTimeout(function(){
+                if(AdMob) AdMob.showInterstitial();
+            },7000);
 
 
-            function initIntAd(){
-
-                AdMob.prepareInterstitial({
-                    adId:admobid.interstitial, 
-                    autoShow:true, 
-                    isTesting:true,
-                    success: function(){
-                            AdMob.isInterstitialReady(function(isready){
-                                if(isready) {
-                                    AdMob.showInterstitial();
-                                }
-                                else{
-                                    initIntAd();
-                                }
-                            });
-                      },
-                      error: function(){
-                        initIntAd();
-                      }
-                });
-            }
-
-            
-            
-            
-        }
-
-
-
-
-
-
-           
-
-           
-setTimeout(function(){
-    initAd();
-}, 500);
 
 
             }
