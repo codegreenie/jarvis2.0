@@ -65,11 +65,11 @@
               autoShow: true,
               isTesting:true,
               success: function(){
-                alert("Banner Ad Active!");
+                
                 showBannerAd();
               },
               error: function(){
-                alert("Banner Ad Failed. Retrying...");
+                
                 initBannerAd();
               }
            });
@@ -88,16 +88,16 @@
 
             function initIntAd(){
 
-                AdMob.prepareInterstitial({
+                AdMob.requestInterstitial({
                     adId:admobid.interstitial, 
                     autoShow:false, 
                     isTesting:true,
                     success: function(){
-                        alert("Int Ad Ready!");
+                        
                         showIntAd();
                       },
                       error: function(){
-                        alert("Int Ad Failed. Retrying...");
+                        
                         initIntAd();
                       }
                 });
@@ -109,7 +109,7 @@
                         AdMob.showInterstitial();
                     }
                     else{
-                        alert("Int Ad Ready but did not show. Retrying...");
+                        
                         initIntAd();
                     }
                 });
