@@ -24,18 +24,14 @@ function onDeviceReady(){
         var admobid = {};
             if( /(android)/i.test(navigator.userAgent) ) { // for android & amazon-fireos
                 admobid = {
-                  banner: 'ca-app-pub-8716485588609849/1279938259', // or DFP format "/6253334/dfp_example_ad"
-                  interstitial: 'ca-app-pub-8716485588609849/2663859039'
+                  banner: 'ca-app-pub-3940256099942544/6300978111',
+                  interstitial: 'ca-app-pub-3940256099942544/1033173712'
                 };
-              } else if(/(ipod|iphone|ipad)/i.test(navigator.userAgent)) { // for ios
+              } 
+               else { // back to android
                 admobid = {
-                  banner: 'ca-app-pub-8716485588609849/1215664542', // or DFP format "/6253334/dfp_example_ad"
-                  interstitial: 'ca-app-pub-8716485588609849/3270487402'
-                };
-              } else { // back to android
-                admobid = {
-                  banner: 'ca-app-pub-8716485588609849/1279938259', // or DFP format "/6253334/dfp_example_ad"
-                  interstitial: 'ca-app-pub-8716485588609849/2663859039'
+                  banner: 'ca-app-pub-3940256099942544/6300978111',
+                  interstitial: 'ca-app-pub-3940256099942544/1033173712'
                 };
               }
 
