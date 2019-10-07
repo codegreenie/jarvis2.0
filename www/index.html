@@ -19,10 +19,6 @@
     <script type="text/javascript">
         
 function onDeviceReady(){
-
-           
-
-    function startAd(){
            
 
         var admobid = {};
@@ -43,26 +39,57 @@ function onDeviceReady(){
                 };
               }
 
+
+            function showBannerAd(){
+
             if(window.AdMob) AdMob.createBanner({
-                adId:admobid.banner, 
-                overlap:true, 
+                adId:admobid.banner,  
                 position:AdMob.AD_POSITION.BOTTOM_CENTER, 
-                autoShow:true
+                autoShow:true,
+                success : function(){
+                    console.log("Banner Ad active");
+                },
+                error: function(){
+                    setTimeout(function(){
+                        showBannerAd();
+                    }, 2500);
+                }
             });
-
-            if(window.AdMob) AdMob.prepareInterstitial({adId:admobid.interstitial, autoShow:false});
-            setTimeout(function(){
-                if(window.AdMob) AdMob.showInterstitial();
-            },7000);
-
-            
 
             }
 
+            function showIntAd(){
+
+            if(window.AdMob) AdMob.prepareInterstitial({
+                adId:admobid.interstitial, 
+                autoShow:false,
+                success : function(){
+                    console.log("Banner Ad active");
+                    setTimeout(function(){
+                        if(window.AdMob) AdMob.showInterstitial();
+                    },1000);
+                },
+                error: function(){
+                    setTimeout(function(){
+                        showIntAd();
+                    }, 2500);
+                }
+            });
+
+        }
+            
+
+            
+
+            
 
 
 
-    startAd();
+            setTimeout(function(){
+                showBannerAd();
+                showIntAd();
+            }, 1000);
+    
 }
 
        document.addEventListener('deviceready', onDeviceReady, false);
