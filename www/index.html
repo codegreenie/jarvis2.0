@@ -48,9 +48,11 @@ function onDeviceReady(){
                 autoShow:true,
                 success : function(){
                     console.log("Banner Ad active");
+                    showIntAd();
                 },
                 error: function(){
                     setTimeout(function(){
+                        AdMob.removeBanner();
                         showBannerAd();
                     }, 2500);
                 }
@@ -87,8 +89,7 @@ function onDeviceReady(){
 
             setTimeout(function(){
                 showBannerAd();
-                showIntAd();
-            }, 1000);
+            }, 5000);
     
 }
 
