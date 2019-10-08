@@ -13,7 +13,8 @@
 
 <body>
     <div class="app">
-        <h1>PhoneGap | Google Admob</h1>    
+        <h1>PhoneGap | Google Admob</h1>  
+        <button id="show-int-btn">show full page ad</button>  
     </div>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript">
@@ -22,18 +23,11 @@ function onDeviceReady(){
            
 
         var admobid = {};
-            if( /(android)/i.test(navigator.userAgent) ) { // for android & amazon-fireos
-                admobid = {
+        admobid = {
                   banner: 'ca-app-pub-3940256099942544/6300978111',
                   interstitial: 'ca-app-pub-3940256099942544/1033173712'
                 };
-              } 
-               else { // back to android
-                admobid = {
-                  banner: 'ca-app-pub-3940256099942544/6300978111',
-                  interstitial: 'ca-app-pub-3940256099942544/1033173712'
-                };
-              }
+              
 
 
             function showBannerAd(){
@@ -42,6 +36,7 @@ function onDeviceReady(){
                 adId:admobid.banner,  
                 position:AdMob.AD_POSITION.BOTTOM_CENTER, 
                 autoShow:true,
+                overlap: true,
                 success : function(){
                     console.log("Banner Ad active");
                     showIntAd();
@@ -54,7 +49,16 @@ function onDeviceReady(){
                 }
             });
 
+
+            AdMob.createBanner({
+            adId:admobid.banner,   
+            position:AdMob.AD_POSITION.POS_XY, x:5, y:50, 
+            autoShow:true});
+
             }
+
+
+            
 
             function showIntAd(){
 
@@ -63,9 +67,6 @@ function onDeviceReady(){
                 autoShow:false,
                 success : function(){
                     console.log("Banner Ad active");
-                    setTimeout(function(){
-                        if(window.AdMob) AdMob.showInterstitial();
-                    },1000);
                 },
                 error: function(){
                     setTimeout(function(){
@@ -77,6 +78,35 @@ function onDeviceReady(){
         }
             
 
+                var interstitialReady = false;
+
+
+                // update the state when ad preloaded
+                document.addEventListener('onAdLoaded', function(e){
+                    if(e.adType == 'interstitial') {
+                        interstitialReady = true;
+                    }
+                });
+
+                // when dismissed, preload one for next show
+                document.addEventListener('onAdDismiss', function(e){
+                    if(e.adType == 'interstitial') {
+                        interstitialReady = false;
+                        AdMob.prepareInterstitial({
+                           adId:admobid.interstitial, 
+                           autoShow:false
+                        });
+                    }
+                });
+
+
+
+                var adBtn = document.getElementById("show-int-btn");
+                adBtn.addEventListener('click', function(e){
+                    
+                        if(interstitialReady == true) AdMob.showInterstitial();
+                    
+                });
             
 
             
@@ -85,9 +115,10 @@ function onDeviceReady(){
 
             setTimeout(function(){
                 showBannerAd();
-            }, 5000);
+            }, 1000);
     
 }
+
 
        document.addEventListener('deviceready', onDeviceReady, false);
     </script>
